@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\backend\DashboardController;
+use App\Http\Controllers\backend\WebSettingsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\StudentController;
@@ -38,3 +40,10 @@ Route::post('/post/post_order_change', [PostController::class, 'post_order_chang
 
 Route::get('posts/{status?}/{show_result?}/{s_query?}', [PostController::class, 'index'])->name('items.filter');
 Route::delete('/delete_multipost', [PostController::class, 'delete_multipost'])->name('post.delete_multipost');
+
+
+//New Routes for Backend
+Route::group(['prefix' => '/admin', 'as' => 'admin.'], function () {
+    Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::resource('web_property', WebSettingsController::class);
+});
