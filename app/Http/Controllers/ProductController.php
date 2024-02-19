@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class ProductController extends Controller
 {
@@ -14,39 +17,56 @@ class ProductController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
-         $this->middleware('permission:product-create', ['only' => ['create','store']]);
-         $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $products = Product::latest()->paginate(5);
-        return view('products.index',compact('products'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index', 'show', 'list']]);
+        $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index()
+    {
+        return view('products.index');
+    }
+
+    public function list(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Product::latest()->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $editUrl = route('products.edit', $row->id);
+                    $deleteUrl = route('products.destroy', $row->id);
+
+                    $actionBtn = '';
+
+                    // Check if the user has permission to edit
+                    if (Auth::user()->can('product-edit')) {
+                        $actionBtn .= '<a href="' . $editUrl . '" class="edit btn btn-success btn-sm">Edit</a> ';
+                    }
+
+                    // Check if the user has permission to delete
+                    if (Auth::user()->can('product-delete')) {
+                        $actionBtn .= '<form action="' . $deleteUrl . '" method="POST" style="display:inline;">
+                                        ' . csrf_field() . '
+                                        ' . method_field('DELETE') . '
+                                        <button type="submit" class="delete btn btn-danger btn-sm">Delete</button>
+                                   </form>';
+                    }
+
+                    return $actionBtn;
+                })
+                ->make(true);
+        }
+    }
+
+
+
     public function create()
     {
         return view('products.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         request()->validate([
@@ -56,42 +76,31 @@ class ProductController extends Controller
 
         Product::create($request->all());
 
+        $notification = array(
+            'alert-type' => 'success',
+            'message' => 'Product has been added'
+        );
+
         return redirect()->route('products.index')
-                        ->with('success','Product created successfully.');
+            ->with($notification);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Product $product)
     {
-        return view('products.show',compact('product'));
+        return view('products.show', compact('product'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Product $product)
     {
-        return view('products.edit',compact('product'));
+        return view('products.edit', compact('product'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Product $product)
     {
-         request()->validate([
+        request()->validate([
             'name' => 'required',
             'detail' => 'required',
         ]);
@@ -99,7 +108,7 @@ class ProductController extends Controller
         $product->update($request->all());
 
         return redirect()->route('products.index')
-                        ->with('success','Product updated successfully');
+            ->with('success', 'Product updated successfully');
     }
 
     /**
@@ -108,11 +117,19 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
+        // Retrieve the product with the given ID
+        $product = Product::findOrFail($id);
         $product->delete();
 
-        return redirect()->route('products.index')
-                        ->with('success','Product deleted successfully');
+        // Your logic for deleting goes here
+
+        $notification = array(
+            'alert-type' => 'success',
+            'message' => 'Product deleted successfully'
+        );
+
+        return redirect()->route('products.index')->with($notification);
     }
 }

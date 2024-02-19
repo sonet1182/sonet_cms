@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\backend\DashboardController;
+use App\Http\Controllers\backend\ListController;
+use App\Http\Controllers\backend\MediaController;
 use App\Http\Controllers\backend\WebSettingsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
@@ -17,13 +20,16 @@ Route::get('/', function () {
 
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
 
 
 // Yajra Data Table Start
 Route::get('students', [StudentController::class, 'index']);
 Route::get('students/list', [StudentController::class, 'getStudents'])->name('students.list');
 // Yajra Data Table End
+
+
+
 
 
 //Sent SMS Start
@@ -45,17 +51,29 @@ Route::get('posts/{status?}/{show_result?}/{s_query?}', [PostController::class, 
 Route::delete('/delete_multipost', [PostController::class, 'delete_multipost'])->name('post.delete_multipost');
 
 
-//New Routes for Backend
-Route::group(['prefix' => '/admin', 'as' => 'admin.'], function () {
-    Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
-    Route::resource('web_property', WebSettingsController::class);
-});
-
 Auth::routes();
 
 
-Route::group(['middleware' => ['auth']], function() {
+// Route::get('products/list', [ListController::class,'list'])->name('products.list');
+
+//New Routes for Backend
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/home', [DashboardController::class, 'dashboard'])->name('home');
+
+    Route::resource('web_property', WebSettingsController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::get('categories/delete/{id}', [CategoryController::class, 'destroy']);
+
     Route::resource('products', ProductController::class);
+    Route::get('product_list', [ProductController::class, 'list'])->name('products.list');
+
+    //Media
+    Route::get('media/all', [MediaController::class, 'index'])->name('media_index');
+    Route::post('media/store', [MediaController::class, 'store'])->name('media_store');
+    Route::post('media/store/noajax', [MediaController::class, 'storeMedia'])->name('media_store_noajax');
+    Route::get('media/get', [MediaController::class, 'getMedia'])->name('media_get');
+    Route::get('media/delete/{id}', [MediaController::class, 'destroy'])->name('media_delete');
 });

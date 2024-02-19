@@ -26,7 +26,7 @@
                 <div class="card-body">
                     <!-- dynamicForm.blade.php -->
                     <form method="POST"
-                        action="{{ isset($record) ? route('admin.web_property.update', $record->id) : route('admin.web_property.store') }}">
+                        action="{{ isset($record) ? route('web_property.update', $record->id) : route('web_property.store') }}">
                         @csrf
                         @if (isset($record))
                             @method('PUT')

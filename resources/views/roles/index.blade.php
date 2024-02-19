@@ -34,7 +34,7 @@
                             <td>{{ $role->name }}</td>
                             <td>
                                 @foreach ($role->permissions as $v)
-                                    <span class="btn btn-sm btn-success">{{ $v->name }}</span>
+                                    <span class="badge badge-sm badge-success">{{ $v->name }}</span>
                                 @endforeach
                             </td>
                             <td>

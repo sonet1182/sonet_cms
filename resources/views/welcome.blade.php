@@ -40,7 +40,7 @@
 
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                <a class="dropdown-item" href="{{ route('dashboard') }}">
                                     {{ __('Dashboard') }}
                                 </a>
 

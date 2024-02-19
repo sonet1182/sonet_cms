@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers;
+
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use Yajra\DataTables\Facades\DataTables;
@@ -31,4 +33,5 @@ class StudentController extends Controller
                 ->make(true);
         }
     }
+
 }

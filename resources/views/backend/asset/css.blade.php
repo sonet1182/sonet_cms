@@ -34,8 +34,12 @@
 <!-- summernote -->
 <link rel="stylesheet" href="{{ asset("plugins/summernote/summernote-bs4.min.css") }}">
 
+<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+
  <!--Toaster CDN Styles-->
  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+
+
 
 
 
