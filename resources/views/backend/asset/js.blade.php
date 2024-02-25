@@ -51,6 +51,9 @@
 <script src="{{ asset("asset/backend/plugins/dropzone/min/dropzone.min.js") }}"></script>
 
 
+<script src="{{ asset("js/dynamic_option.js") }}"></script>
+
+
 <!-- Page specific script -->
 <script>
   $(function () {
@@ -332,5 +335,16 @@
         }
     })
 </script>
+
+
+<!-- Include Lightbox CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+
+<!-- Include jQuery -->
+{{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> --}}
+
+<!-- Include Lightbox JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
 
 

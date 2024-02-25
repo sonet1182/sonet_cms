@@ -24,18 +24,11 @@ class MediaController extends Controller
         */
 
         if ($files = $request->file('image')) {
-
-            //$image = $request->image->move('public/images');
             $image = pathinfo($files->getClientOriginalName(), PATHINFO_FILENAME) . '-' . time();
             $image = (new Core())->cleanString($image);
             $image = strtolower($image).'.' . $files->getClientOriginalExtension();
             $imagepath = $request->image->move('public/uploads/images', $image);
 
-
-            // return Response()->json([
-            //     "success" => true,
-            //     "image" => $image
-            // ]);
             Media::create([
                 'original_name' => $files->getClientOriginalName(),
                 'file_type' => $files->getClientmimeType(),

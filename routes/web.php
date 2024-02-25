@@ -4,13 +4,19 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\ListController;
 use App\Http\Controllers\backend\MediaController;
+use App\Http\Controllers\backend\OfferController;
 use App\Http\Controllers\backend\WebSettingsController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Zone\DistrictController;
+use App\Http\Controllers\Zone\DivisionController;
+use App\Http\Controllers\Zone\ThanaController;
+use App\Http\Controllers\Zone\ZoneController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,18 +24,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
-
-
 // Yajra Data Table Start
 Route::get('students', [StudentController::class, 'index']);
 Route::get('students/list', [StudentController::class, 'getStudents'])->name('students.list');
 // Yajra Data Table End
-
-
-
 
 
 //Sent SMS Start
@@ -38,7 +36,6 @@ Route::get('/sms', [HomeController::class, "sms"]);
 // Send SMS by PHP Script
 Route::get('/sms2', [HomeController::class, "sms2"]);
 //Sent SMS End
-
 
 
 //Drag and Drop Data Order Start
@@ -53,8 +50,10 @@ Route::delete('/delete_multipost', [PostController::class, 'delete_multipost'])-
 
 Auth::routes();
 
+//Zone Ajax
+Route::get('/district-list', [ZoneController::class, "districts"]);
+Route::get('/thana-list', [ZoneController::class, "thanas"]);
 
-// Route::get('products/list', [ListController::class,'list'])->name('products.list');
 
 //New Routes for Backend
 Route::group(['middleware' => ['auth']], function () {
@@ -64,11 +63,27 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('web_property', WebSettingsController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
+
+    //Zone
+    Route::resource('divisions', DivisionController::class);
+    Route::resource('districts', DistrictController::class);
+    Route::resource('thanas', ThanaController::class);
+
+    //Category
     Route::resource('categories', CategoryController::class);
     Route::get('categories/delete/{id}', [CategoryController::class, 'destroy']);
 
+    //Brand
+    Route::resource('brands', BrandController::class);
+    Route::get('brand_list', [BrandController::class, 'list'])->name('brands.list');
+    //Offer
+    Route::resource('offers', OfferController::class);
+    Route::get('offer_list', [OfferController::class, 'list'])->name('offers.list');
+
+    //Product
     Route::resource('products', ProductController::class);
     Route::get('product_list', [ProductController::class, 'list'])->name('products.list');
+    Route::get('export_prod_csv',  [ProductController::class, 'exportCSVFile'])->name('products.export_csv');
 
     //Media
     Route::get('media/all', [MediaController::class, 'index'])->name('media_index');

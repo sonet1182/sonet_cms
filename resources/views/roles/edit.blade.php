@@ -28,26 +28,37 @@
                 @csrf
                 @method('PATCH')
 
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" name="name" class="form-control" placeholder="Name"
-                        value="{{ $role->name }}">
-                </div>
 
-                <div class="form-group">
-                    <label for="permission">Permission:</label>
-                    <br />
-                    @foreach ($permission as $value)
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="permission[]" value="{{ $value->name }}"
-                                {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}>
-                            <label class="form-check-label">{{ $value->name }}</label>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" name="name" class="form-control" placeholder="Name"
+                                value="{{ $role->name }}">
+                        </div>
+                    </div>
+
+                    @foreach ($permissions as $group => $groupPermissions)
+                        <div class="col-xs-12 col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <strong><u>{{ strtoupper($group) }}:</u></strong>
+                                <br />
+                                @foreach ($groupPermissions as $value)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="permission[]"
+                                            value="{{ $value->name }}"
+                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}>
+                                        <label class="form-check-label">{{ $value->name }}</label>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     @endforeach
-                </div>
 
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
                 </div>
             </form>
 

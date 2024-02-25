@@ -7,9 +7,12 @@
 
     <div class="card card-default">
 
+
         <div class="card-header">
             <div class="d-flex">
                 <div class="ml-auto">
+                    <a class="btn btn-info btn-sm" href="{{ route('products.export_csv') }}"><i class="fa fa-download"
+                        aria-hidden="true"></i> Export File</a>
                     @can('product-create')
                         <a class="btn btn-sm btn-success" href="{{ route('products.create') }}"> <i class="fa fa-plus"
                                 aria-hidden="true"></i> Create New Product </a>
@@ -24,8 +27,12 @@
                 <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Image</th>
                         <th>Name</th>
-                        <th>Detail</th>
+                        <th>Category</th>
+                        <th>Regular Price</th>
+                        <th>Offer Price</th>
+                        <th>Stock</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -61,12 +68,28 @@
                         name: 'id'
                     },
                     {
+                        data: 'imageview',
+                        name: 'imageview'
+                    },
+                    {
                         data: 'name',
                         name: 'name'
                     },
                     {
-                        data: 'detail',
-                        name: 'detail'
+                        data: 'category_id',
+                        name: 'category_id'
+                    },
+                    {
+                        data: 'regular_price',
+                        name: 'regular_price'
+                    },
+                    {
+                        data: 'offer_price',
+                        name: 'offer_price'
+                    },
+                    {
+                        data: 'quantity',
+                        name: 'quantity'
                     },
                     {
                         data: 'action',

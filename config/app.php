@@ -168,7 +168,9 @@ return [
          * Package Service Providers...
          */
          Yajra\DataTables\DataTablesServiceProvider::class,
+         Yajra\DataTables\ButtonsServiceProvider::class,
          Spatie\Permission\PermissionServiceProvider::class,
+         Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -193,7 +195,8 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
 ];

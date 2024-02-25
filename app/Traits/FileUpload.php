@@ -2,7 +2,8 @@
 
 namespace App\Traits;
 use Illuminate\Support\Facades\Artisan;
-use Intervention\Image\Facades\Image;
+// use Intervention\Image\Facades\Image;
+use Image;
 
 trait FileUpload
 {
