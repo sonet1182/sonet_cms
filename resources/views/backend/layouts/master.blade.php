@@ -53,12 +53,8 @@
 
     @include('backend.asset.js')
 
-
-
-
-
-
     @yield('scripts')
+
 </body>
 
 </html>

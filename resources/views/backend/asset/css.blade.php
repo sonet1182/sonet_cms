@@ -38,6 +38,7 @@
 
 <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 
+
 <!--Toaster CDN Styles-->
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
@@ -45,12 +46,21 @@
     tbody td {
         padding: 0px 10px !important;
     }
+
     .table tr:nth-child(2n) {
         background: #f2f2f2;
     }
+
     .select2-selection--single {
-        padding: 3px 0px!important;
-        height: 32px!important;
-        border: 1px solid #ced4da!important;
+        padding: 3px 0px !important;
+        height: 32px !important;
+        border: 1px solid #ced4da !important;
     }
+
+    .nav-item ul a {
+        padding-left: 45px;
+        font-size: 15px;
+    }
+
+
 </style>

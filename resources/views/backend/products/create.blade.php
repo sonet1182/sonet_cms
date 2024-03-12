@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('title', 'Edit Product')
+@section('title', 'Add New Product')
 
 @section('content')
 
@@ -16,11 +16,8 @@
 
 
     <span>
-        <form action="{{ route('products.update', $post->id) }}" method="POST" enctype="multipart/form-data">
-            @method('PUT')
+        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-
-
             @if (!empty($post))
                 <input type="hidden" name="id" value="{{ $post->id }}" />
             @endif
@@ -28,23 +25,21 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header card-info">
+                        <div class="card-header card-info  {{ !empty($post) ? 'alert-primary' : '' }}">
                             <h3 class="card-title panel-title float-left">
                                 {{ !empty($post) ? 'Edit Product' : 'Add Product' }}
                             </h3>
                         </div>
                         <div class="card-body">
-
-
                             <div class="row">
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
                                     <label for="title">Title</label>
                                     <input type="text" class="form-control form-control-sm" id="title" name="name"
                                         placeholder="Enter title" value="{{ !empty($post) ? $post->name : old('name') }}"
                                         required>
                                 </div>
 
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
                                     <label for="slug">Slug</label>
                                     @if (!empty($post))
                                         <input class="slug_edit d-none" id="slug_edit" name="slug_edit" type="checkbox">
@@ -78,10 +73,12 @@
                                     <input type="text" class="form-control form-control-sm" name="offer_price"
                                         value="{{ !empty($post) ? $post->offer_price : old('offer_price') }}" required>
                                 </div>
+
+
+
                             </div>
                         </div>
                     </div>
-
 
                     <div class="card">
                         <div class="card-header card-info">
@@ -89,22 +86,17 @@
                                 Stock
                             </h3>
                         </div>
-
-
                         <div class="card-body">
+
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="title">Unit</label>
-                                    <select name="unit" class="select2"
-                                        style="width: 100%; padding: 3px 0px; height: 32px;">
-                                        <option value="Piece" {{ $post->unit == 'Piece' ? 'selected' : '' }}>Piece
-                                        </option>
-                                        <option value="Pair" {{ $post->unit == 'Pair' ? 'selected' : '' }}>Pair</option>
-                                        <option value="Kg" {{ $post->unit == 'Kg' ? 'selected' : '' }}>Kg</option>
-                                        <option value="Pound" {{ $post->unit == 'Pound' ? 'selected' : '' }}>Pound
-                                        </option>
-                                        <option value="Liter" {{ $post->unit == 'Liter' ? 'selected' : '' }}>Liter
-                                        </option>
+                                    <select name="unit" class="form-control select2" style="width: 100%; padd ">
+                                        <option value="Piece">Piece</option>
+                                        <option value="Pair">Pair</option>
+                                        <option value="Kg">Kg</option>
+                                        <option value="Pound">Pound</option>
+                                        <option value="Liter">Liter</option>
                                     </select>
                                 </div>
 
@@ -119,6 +111,12 @@
                                     <input type="text" class="form-control form-control-sm" name="stock_alert"
                                         value="{{ !empty($post) ? $post->stock_alert : old('stock_alert') }}">
                                 </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="title">Buying Price</label>
+                                    <input type="text" class="form-control form-control-sm" name="buying_price"
+                                        value="{{ !empty($post) ? $post->buying_price : old('buying_price') }}">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -126,64 +124,22 @@
 
 
                     <div class="card">
-                        <div class="card-header card-info">
+                        <div class="card-header card-info  {{ !empty($post) ? 'alert-primary' : '' }}">
                             <h3 class="card-title panel-title float-left">
                                 Seo Settings
                             </h3>
                         </div>
                         <div class="card-body">
-
                             <div class="form-group">
                                 <label for="meta_keyword">Meta Keyword</label>
-
                                 <select name="meta_keyword[]" class="select2" multiple="multiple" style="width: 100%;">
-                                    @if (!empty($post->meta_keyword))
-                                        @foreach (json_decode($post->meta_keyword) as $option)
-                                            <option value="{{ $option }}" selected>{{ $option }}</option>
-                                        @endforeach
-                                    @endif
                                 </select>
-
                             </div>
-
-
                         </div>
                     </div>
-
-
-
-
-
-
                 </div>
 
-
-
                 <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header card-info">
-                            <h3 class="card-title panel-title float-left">
-                                Select Type
-                            </h3>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label>Add Types</label>
-                                <select name="type[]" class="select2" multiple="multiple"
-                                    data-placeholder="Select type" style="width: 100%;">
-
-                                    @foreach (['Special', 'Hot', 'Limited', 'Winter', 'Summer', 'Eid', 'Puja'] as $option)
-                                        <option value="{{ $option }}"
-                                            {{ in_array($option, $types ?? []) ? 'selected' : '' }}>{{ $option }}
-                                            Offer</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-
 
                     <div class="card">
                         <div class="card-header card-info">
@@ -197,20 +153,18 @@
                         <div class="card-body">
                             <div class="galleryimg row mx-auto">
                                 <!-- product images and hidden fields -->
-                                @if (!empty($post) && $post->galleryimg_id)
-                                    @foreach (json_decode($post->galleryimg_id) as $key => $photo)
+                                @if (!empty($product) && $product->product_image)
+                                    @foreach ($product->product_image as $key => $photo)
                                         <?php
                                         $pimg = \App\Models\Media::where('id', $photo)->first();
+                                        //echo $pimg->filename;
                                         ?>
                                         @if (!empty($pimg->id))
                                             <div class="product-img product-images col-md-2 col-3">
-                                                <a href="{{ asset($pimg->file_directory) . '/' . $pimg->filename }}"
-                                                    data-lightbox="product-gallery" data-title="">
-                                                    <img class="img-fluid"
-                                                        src="{{ asset($pimg->file_directory) . '/' . $pimg->filename }}">
-                                                </a>
                                                 <input type="hidden" name="galleryimg_id[]"
                                                     value="{{ $pimg->id }}">
+                                                <img class="img-fluid"
+                                                    src="{{ asset('/public/uploads/images/') . '/' . $pimg->filename }}">
                                                 <a href="javascript:void()" class="remove"><span
                                                         class="fa fa-trash"></span></a>
                                             </div>
@@ -219,7 +173,38 @@
                                 @endif
                             </div>
                         </div>
+                    </div>
 
+                    <div class="card">
+                        <div class="card-header card-info">
+                            <h3 class="card-title panel-title float-left">
+                                Select Type
+                            </h3>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Add Brand</label>
+                                <select name="brand" class="form-control select2" multiple="single" data-placeholder="Select Brand"
+                                    style="">
+                                    @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Add Offer Types</label>
+                                <select name="type[]" class="select2 form-control" multiple="multiple"
+                                    data-placeholder="Select offer type" style="width: 100%;">
+
+                                    @foreach ($offers as $offer)
+                                        <option value="{{ $offer->id }}">{{ $offer->name }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card">
@@ -230,12 +215,11 @@
                         </div>
 
                         <div class="card-body">
-                            <ul class="list-group">
+                            <ul class="list-group" style="max-height: 300px; overflow:auto">
                                 @foreach ($categories as $category)
                                     <li class="list-group-item">
                                         <h5>
-                                            <input type="radio" name="category" value="{{ $category->id }}"
-                                                {{ !empty($post) && $post->category == $category->id ? 'checked' : '' }} />
+                                            <input type="radio" name="category" value="{{ $category->id }}" />
                                             {{ $category->title }}
                                         </h5>
                                         @if (count($category->subCategories))
@@ -248,20 +232,16 @@
                                     </li>
                                 @endforeach
                             </ul>
-
                         </div>
+
+
                     </div>
                 </div>
-
-
-
-
             </div>
 
             <div class="row">
                 <button type="submit" class="btn btn-success px-5 mb-4 ml-auto">Submit</button>
             </div>
-
         </form>
     </span>
 
@@ -269,13 +249,9 @@
     <?php echo \App\CustomClass\MediaManager::mediaScript(); ?>
     <?php echo \App\CustomClass\MediaManager::media('multiple', 'gallery', 'galleryimg'); ?>
     <?php echo \App\CustomClass\MediaManager::media('single', 'featured', 'featuredimg'); ?>
-
-
 @endsection
 
 @section('scripts')
-
-
     <script>
         $(".slug_edit").change(function() {
             $("#slug").attr('readonly', !this.checked)
@@ -303,5 +279,4 @@
             });
         });
     </script>
-
 @endsection

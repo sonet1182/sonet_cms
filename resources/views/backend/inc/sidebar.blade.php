@@ -37,7 +37,7 @@
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}"
                         class="nav-link {{ Request::url() == url('/dashboard') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
@@ -52,11 +52,35 @@
                     </a>
                 </li> --}}
 
+                <li class="nav-header">PRODUCT MANAGEMENT</li>
+
+                @can('banner-list')
+                <li class="nav-item {{ request()->is('banners*') ? 'menu-open active' : '' }}">
+                    <a href="#" class="nav-link {{ request()->is('banners*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-image"></i>
+                        <p>
+                            Banner
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('banners.index') }}"
+                                class="nav-link {{ request()->is('banners') ? 'active' : '' }}">
+                                <i class="fas fa-list nav-icon"></i>
+                                <p>Banner List</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endcan
+
+
 
                 @can('category-list')
                 <li class="nav-item {{ request()->is('categories*') ? 'menu-open active' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('categories*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon fas fa-table"></i>
                         <p>
                             Caregory
                             <i class="right fas fa-angle-left"></i>
@@ -132,7 +156,6 @@
                 @endcan
 
 
-
                 @can('product-list')
                     <li class="nav-item {{ request()->is('products*') ? 'menu-open active' : '' }}">
                         <a href="#" class="nav-link {{ request()->is('products*') ? 'active' : '' }}">
@@ -161,88 +184,16 @@
                                     </a>
                                 </li>
                             @endcan
+                            <li class="nav-item">
+                                <a href="{{ route('products.stock_alert') }}"
+                                    class="nav-link {{ request()->is('products/stock_alert') ? 'active' : '' }}">
+                                    <i class="fas fa-exclamation-triangle nav-ico"></i>
+                                    <p>&nbsp;Stock Alert</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endcan
-
-
-
-                <li class="nav-header">WEB SETTINGS</li>
-                <li class="nav-item">
-                    <a href="{{ route('web_property.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
-                        <p>Properties</p>
-                    </a>
-                </li>
-
-
-
-                @can('role-list')
-                    <li class="nav-item {{ request()->is('roles*') ? 'menu-open active' : '' }}">
-                        <a href="#" class="nav-link {{ request()->is('roles*') ? 'active' : '' }}">
-                            <i class="nav-icon fa fa-user-circle"></i>
-                            <p>
-                                Role
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            @can('role-list')
-                                <li class="nav-item">
-                                    <a href="{{ route('roles.index') }}"
-                                        class="nav-link {{ request()->is('roles') ? 'active' : '' }}">
-                                        <i class="fa fa-list nav-icon"></i>
-                                        <p>Role List</p>
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('role-create')
-                                <li class="nav-item">
-                                    <a href="{{ route('roles.create') }}"
-                                        class="nav-link {{ request()->is('roles/create') ? 'active' : '' }}">
-                                        <i class="fa fa-plus nav-icon"></i>
-                                        <p>Create New</p>
-                                    </a>
-                                </li>
-                            @endcan
-                        </ul>
-                    </li>
-                @endcan
-
-                @can('user-list')
-                    <li class="nav-item {{ request()->is('users*') ? 'menu-open active' : '' }}">
-                        <a href="#" class="nav-link {{ request()->is('users*') ? 'active' : '' }}">
-                            <i class="nav-icon fa fa-user-plus"></i>
-                            <p>
-                                user
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            @can('user-list')
-                                <li class="nav-item">
-                                    <a href="{{ route('users.index') }}"
-                                        class="nav-link {{ request()->is('users') ? 'active' : '' }}">
-                                        <i class="fa fa-list nav-icon"></i>
-                                        <p>user List</p>
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('user-create')
-                                <li class="nav-item">
-                                    <a href="{{ route('users.create') }}"
-                                        class="nav-link {{ request()->is('products/create') ? 'active' : '' }}">
-                                        <i class="fa fa-plus nav-icon"></i>
-                                        <p>Create New</p>
-                                    </a>
-                                </li>
-                            @endcan
-                        </ul>
-                    </li>
-                @endcan
-
-
-
 
 
                 @php
@@ -340,6 +291,82 @@
                                     <a href="{{ route('thanas.create') }}"
                                         class="nav-link {{ request()->is('thanas/create') ? 'active' : '' }}">
                                         <i class="fas fa-plus nav-icon"></i>
+                                        <p>Create New</p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+
+
+                <li class="nav-header">WEB SETTINGS</li>
+
+
+                <li class="nav-item">
+                    <a href="{{ route('web_property.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>Properties</p>
+                    </a>
+                </li>
+
+                @can('role-list')
+                    <li class="nav-item {{ request()->is('roles*') ? 'menu-open active' : '' }}">
+                        <a href="#" class="nav-link {{ request()->is('roles*') ? 'active' : '' }}">
+                            <i class="nav-icon fa fa-user-circle"></i>
+                            <p>
+                                Role
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('role-list')
+                                <li class="nav-item">
+                                    <a href="{{ route('roles.index') }}"
+                                        class="nav-link {{ request()->is('roles') ? 'active' : '' }}">
+                                        <i class="fa fa-list nav-icon"></i>
+                                        <p>Role List</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('role-create')
+                                <li class="nav-item">
+                                    <a href="{{ route('roles.create') }}"
+                                        class="nav-link {{ request()->is('roles/create') ? 'active' : '' }}">
+                                        <i class="fa fa-plus nav-icon"></i>
+                                        <p>Create New</p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                @can('user-list')
+                    <li class="nav-item {{ request()->is('users*') ? 'menu-open active' : '' }}">
+                        <a href="#" class="nav-link {{ request()->is('users*') ? 'active' : '' }}">
+                            <i class="nav-icon fa fa-user-plus"></i>
+                            <p>
+                                user
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('user-list')
+                                <li class="nav-item">
+                                    <a href="{{ route('users.index') }}"
+                                        class="nav-link {{ request()->is('users') ? 'active' : '' }}">
+                                        <i class="fa fa-list nav-icon"></i>
+                                        <p>user List</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('user-create')
+                                <li class="nav-item">
+                                    <a href="{{ route('users.create') }}"
+                                        class="nav-link {{ request()->is('products/create') ? 'active' : '' }}">
+                                        <i class="fa fa-plus nav-icon"></i>
                                         <p>Create New</p>
                                     </a>
                                 </li>

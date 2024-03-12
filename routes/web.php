@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\BannerController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\ListController;
@@ -79,10 +80,15 @@ Route::group(['middleware' => ['auth']], function () {
     //Offer
     Route::resource('offers', OfferController::class);
     Route::get('offer_list', [OfferController::class, 'list'])->name('offers.list');
+    //Offer
+    Route::resource('banners', BannerController::class);
+    Route::get('banner_list', [BannerController::class, 'list'])->name('banners.list');
 
     //Product
+    Route::get('products/stock_alert', [ProductController::class, 'stock_alert'])->name('products.stock_alert');
     Route::resource('products', ProductController::class);
     Route::get('product_list', [ProductController::class, 'list'])->name('products.list');
+    Route::get('stock_alert_list', [ProductController::class, 'stock_alert_list'])->name('products.stock_alert_list');
     Route::get('export_prod_csv',  [ProductController::class, 'exportCSVFile'])->name('products.export_csv');
 
     //Media

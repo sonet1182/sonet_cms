@@ -10,6 +10,15 @@ use Yajra\DataTables\Facades\DataTables;
 
 class OfferController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:offer-list|offer-create|offer-edit|offer-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:offer-create', ['only' => ['create','store']]);
+         $this->middleware('permission:offer-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:offer-delete', ['only' => ['destroy']]);
+    }
+
+
     public function index()
     {
         return view('offers.index');
@@ -129,7 +138,7 @@ class OfferController extends Controller
 
         unset($validatedData['range']);
         if ($request->hasFile('image')) {
-            $validatedData['image'] = $this->UploadImage($request, 'image', 'images/offers/', '1200', '400', $brand->logo);
+            $validatedData['image'] = $this->UploadImage($request, 'image', 'images/offers/', '1200', '400', $brand->image);
         }
 
         $brand->update($validatedData);
