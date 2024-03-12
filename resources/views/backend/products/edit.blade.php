@@ -188,11 +188,11 @@
                                         $pimg = \App\Models\Media::where('id', $photo)->first();
                                         ?>
                                         @if (!empty($pimg->id))
-                                            <div class="product-img product-images col-md-2 col-3">
-                                                <a href="{{ asset($pimg->file_directory) . '/' . $pimg->filename }}"
+                                            <div class="product-img product-images col-md-4 col-6 mx-0">
+                                                <a href="{{ asset($pimg->file_directory . $pimg->filename) }}"
                                                     data-lightbox="product-gallery" data-title="">
                                                     <img class="img-fluid"
-                                                        src="{{ asset($pimg->file_directory) . '/' . $pimg->filename }}">
+                                                        src="{{ asset($pimg->file_directory . $pimg->filename) }}">
                                                 </a>
                                                 <input type="hidden" name="galleryimg_id[]"
                                                     value="{{ $pimg->id }}">

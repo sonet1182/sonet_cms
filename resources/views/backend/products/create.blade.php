@@ -137,6 +137,42 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="card">
+                        <div class="card-header card-info d-flex">
+                            <h3 class="card-title panel-title float-left">
+                                Product Variants
+                            </h3>
+                            <button type="button" class="ml-auto btn btn-sm btn-primary" id="add-variant">Add Variant</button>
+                        </div>
+                        <div class="card-body">
+                            <div id="variant-section">
+                                <div class="variant-row row">
+                                    <div class="form-group col-md-3">
+                                        <label for="size">Size</label>
+                                        <input type="text" class="form-control form-control-sm" name="variants[size][]" required>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="color">Color</label>
+                                        <input type="text" class="form-control form-control-sm" name="variants[color][]" required>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="variant_price">Price</label>
+                                        <input type="text" class="form-control form-control-sm" name="variants[price][]" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="variant_quantity">Quantity</label>
+                                        <input type="text" class="form-control form-control-sm" name="variants[quantity][]" required>
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <button type="button" class="btn btn-danger remove-variant">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-4">
@@ -160,7 +196,7 @@
                                         //echo $pimg->filename;
                                         ?>
                                         @if (!empty($pimg->id))
-                                            <div class="product-img product-images col-md-2 col-3">
+                                            <div class="product-img product-images col-md-4 col-6 mx-0">
                                                 <input type="hidden" name="galleryimg_id[]"
                                                     value="{{ $pimg->id }}">
                                                 <img class="img-fluid"
@@ -215,7 +251,7 @@
                         </div>
 
                         <div class="card-body">
-                            <ul class="list-group" style="max-height: 300px; overflow:auto">
+                            <ul class="list-group">
                                 @foreach ($categories as $category)
                                     <li class="list-group-item">
                                         <h5>
@@ -279,4 +315,20 @@
             });
         });
     </script>
+
+<script>
+    $(document).ready(function () {
+        // Add variant
+        $("#add-variant").on("click", function () {
+            var clonedRow = $(".variant-row:first").clone();
+            clonedRow.find("input").val(""); // Clear input values
+            $("#variant-section").append(clonedRow);
+        });
+
+        // Remove variant
+        $(document).on("click", ".remove-variant", function () {
+            $(this).closest(".variant-row").remove();
+        });
+    });
+</script>
 @endsection

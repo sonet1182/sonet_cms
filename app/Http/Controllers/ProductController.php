@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Media;
 use App\Models\Offer;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -134,6 +135,26 @@ class ProductController extends Controller
 
         $product = new Product($validatedData);
         $product->save();
+
+
+        // Process variant data
+        $variants = $request->input('variants');
+
+        if ($variants && is_array($variants)) {
+            foreach ($variants['size'] as $key => $size) {
+                $variantData = [
+                    'size' => $size,
+                    'color' => $variants['color'][$key],
+                    'price' => $variants['price'][$key],
+                    'quantity' => $variants['quantity'][$key],
+                    // Add other variant fields as needed
+                ];
+
+                // Create and save the variant
+                $variant = new ProductVariant($variantData);
+                $product->variants()->save($variant);
+            }
+        }
 
         $notification = array(
             'alert-type' => 'success',

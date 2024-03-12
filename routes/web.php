@@ -97,4 +97,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('media/store/noajax', [MediaController::class, 'storeMedia'])->name('media_store_noajax');
     Route::get('media/get', [MediaController::class, 'getMedia'])->name('media_get');
     Route::get('media/delete/{id}', [MediaController::class, 'destroy'])->name('media_delete');
+    Route::delete('media/delete_ajax', [MediaController::class, 'destroy_ajax'])->name('media_delete_ajax');
 });

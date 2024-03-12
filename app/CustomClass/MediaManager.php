@@ -182,7 +182,7 @@ class MediaManager{
 					}
 
     				//template
-    				var template = 	'<div class="product-img product-images col-md-2 col-3">'+
+    				var template = 	'<div class="product-img product-images col-md-4 col-6 mx-0">'+
     									'<input type="hidden" name="'+image_ids+'" value="'+ imageId +'">'+
     									'<img class="img-fluid" src="'+ imgSrc +'" />'+
     									'<a href="javascript:void()" class="remove">'+
