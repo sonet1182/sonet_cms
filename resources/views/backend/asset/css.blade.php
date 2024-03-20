@@ -188,4 +188,8 @@
         opacity: 0;
         cursor: pointer;
     }
+
+    .link{
+        cursor: pointer;
+    }
 </style>

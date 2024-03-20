@@ -13,13 +13,23 @@ class CategoryController extends Controller
         $categories = Category::with('subCategories')->whereNull('parent_id')->get();
         $category_list = Category::pluck('title', 'id')->all();
 
-        return view('categories.index', compact('category_list','categories'));
+        return view('categories.index', compact('category_list', 'categories'));
     }
 
     public function create()
     {
         $categories = Category::pluck('title', 'id')->all();
         return view('categories.create', compact('categories'));
+    }
+
+    public function edit($id)
+    {
+        $post = Category::findOrFail($id);
+
+        if ($post)
+            return view('categories.edit', compact('post'));
+        else
+            return 'Data Not Found!';
     }
 
     public function store(Request $request)
@@ -34,28 +44,99 @@ class CategoryController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:categories,id',
+            // 'slug' => 'required|string|max:255|unique:products',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        Category::create([
+        if ($request->hasFile('image')) {
+            $image = $this->UploadImage($request, 'image', 'images/categories/', '200', '200');
+        }
+
+        $category = Category::create([
             'title' => $request->title,
             'slug'   => CleanURL($request->title),
             'parent_id' => $request->parent_id,
+            'image' => $image ?? null,
+            'status' => $request->status ? 1 : 0,
         ]);
 
-        return redirect()->route('categories.index')->with('success', 'Category added successfully.');
+        if ($request->ajax()) {
+            $categories = Category::with('subCategories')->whereNull('parent_id')->get();
+            if ($categories)
+                return view('categories.listbox', compact('categories'));
+            else
+                return 'Data Not Found!';
+        } else {
+            return redirect()->back()->with('success', 'Category added successfully.');
+        }
     }
+
+    public function update(Request $request, $id)
+    {
+        function CleanURL2($string, $delimiter = '-')
+        {
+            $string = preg_replace("/[~`{}.'\"\!\@\#\$\%\^\&\*\(\)\_\=\+\/\?\>\<\,\[\]\:\;\|\\\]/", "", $string);
+            $string = preg_replace("/[\/_|+ -]+/", $delimiter, $string);
+            return $string;
+        }
+
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:categories,id',
+            // 'slug' => 'required|string|max:255|unique:categories,slug,' . $id,
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $category = Category::findOrFail($id);
+
+
+        if ($request->hasFile('image')) {
+            $validatedData['image'] = $this->UploadImage($request, 'image', 'images/categories/', '200', '200', $category->image);
+        }
+
+        if ($request->status) {
+            $validatedData['status'] = 1;
+        } else {
+            $validatedData['status'] = 0;
+        }
+
+        $validatedData['slug'] = CleanURL2($request->title);
+
+        $category->update($validatedData);
+
+        $notification = [
+            'alert-type' => 'success',
+            'message' => 'Category has been updated',
+        ];
+
+        if ($request->ajax()) {
+
+            $categories = Category::with('subCategories')->whereNull('parent_id')->get();
+            if ($categories)
+                return view('categories.listbox', compact('categories'));
+            else
+                return 'Data Not Found!';
+
+        } else {
+            return back()->with($notification);
+        }
+    }
+
 
     public function destroy($id)
     {
-        $category = Category::findOrFail($id);
-        $category->delete();
+        $data = Category::findOrFail($id);
 
+        if (!$data) {
+            return response()->json(['success' => false, 'message' => 'Record not found'], 404);
+        }
 
-        $notification = array(
-            'alert-type' => 'success',
-            'message' => 'Category and its children deleted successfully'
-        );
+        $data->delete();
 
-        return redirect()->back()->with($notification);
+        $categories = Category::with('subCategories')->whereNull('parent_id')->get();
+        if ($categories)
+            return view('categories.listbox', compact('categories'));
+        else
+            return 'Data Not Found!';
     }
 }

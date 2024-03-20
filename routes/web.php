@@ -6,8 +6,10 @@ use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\ListController;
 use App\Http\Controllers\backend\MediaController;
 use App\Http\Controllers\backend\OfferController;
+use App\Http\Controllers\backend\PromoCodeController;
 use App\Http\Controllers\backend\WebSettingsController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\frontend\HomepageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
@@ -21,9 +23,10 @@ use App\Http\Controllers\Zone\ZoneController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+//Frontend Start
+Route::get('/', [HomepageController::class, 'index']);
+//Frontend End
 
 // Yajra Data Table Start
 Route::get('students', [StudentController::class, 'index']);
@@ -72,7 +75,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Category
     Route::resource('categories', CategoryController::class);
-    Route::get('categories/delete/{id}', [CategoryController::class, 'destroy']);
 
     //Brand
     Route::resource('brands', BrandController::class);
@@ -80,9 +82,14 @@ Route::group(['middleware' => ['auth']], function () {
     //Offer
     Route::resource('offers', OfferController::class);
     Route::get('offer_list', [OfferController::class, 'list'])->name('offers.list');
-    //Offer
+
+    //Banner
     Route::resource('banners', BannerController::class);
     Route::get('banner_list', [BannerController::class, 'list'])->name('banners.list');
+
+    //Promo Code
+    Route::resource('promocodes', PromoCodeController::class);
+    Route::get('promo_code_list', [PromoCodeController::class, 'list'])->name('promocodes.list');
 
     //Product
     Route::get('products/stock_alert', [ProductController::class, 'stock_alert'])->name('products.stock_alert');

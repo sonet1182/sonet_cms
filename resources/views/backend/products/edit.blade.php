@@ -144,7 +144,7 @@
 
 
                                 <select name="meta_keyword[]" class="select2 form-control" multiple="multiple"
-                                data-placeholder="Select Offer type" style="width: 100%;">
+                                    data-placeholder="Select Offer type" style="width: 100%;">
                                     @if (!empty($post->meta_keyword))
                                         @foreach (json_decode($post->meta_keyword) as $option)
                                             <option value="{{ $option }}" selected>{{ $option }}</option>
@@ -157,6 +157,84 @@
 
                         </div>
                     </div>
+
+
+                    <div class="card">
+                        <div class="card-header card-info d-flex">
+                            <h3 class="card-title panel-title float-left">
+                                Product Variants
+                            </h3>
+                            <button type="button" class="ml-auto btn btn-sm btn-primary" id="add-variant">Add
+                                Variant</button>
+                        </div>
+
+
+
+                        <div class="card-body">
+                            <div id="variant-section">
+
+                                @if ($post->variants->count() > 0)
+                                    @foreach ($post->variants as $variant)
+                                        <div class="variant-row row">
+                                            <input type="hidden" name="variants[id][]" value="{{ $variant->id }}">
+                                            <div class="form-group col-md-3">
+                                                <label for="size">Size</label>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="variants[size][]" value="{{ $variant->size }}">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="color">Color</label>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="variants[color][]" value="{{ $variant->color }}">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="variant_price">Price</label>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="variants[price][]" value="{{ $variant->price }}">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="variant_quantity">Quantity</label>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="variants[quantity][]" value="{{ $variant->quantity }}">
+                                            </div>
+                                            <div class="form-group col-md-1">
+                                                <button type="button"
+                                                    class="btn btn-danger remove-variant">Remove</button>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="variant-row row">
+                                        <div class="form-group col-md-3">
+                                            <label for="size">Size</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                name="variants[size][]">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="color">Color</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                name="variants[color][]">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="variant_price">Price</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                name="variants[price][]">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="variant_quantity">Quantity</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                name="variants[quantity][]">
+                                        </div>
+                                        <div class="form-group col-md-1">
+                                            <button type="button" class="btn btn-danger remove-variant">Remove</button>
+                                        </div>
+                                    </div>
+
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
 
 
 
@@ -244,9 +322,12 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Add Brand</label>
-                                <select name="brand" class="select2 form-control"  multiple="single" data-placeholder="Select Brand">
+                                <select name="brand" class="select2 form-control" multiple="single"
+                                    data-placeholder="Select Brand">
                                     @foreach ($brands as $brand)
-                                        <option value="{{ $brand->id }}" {{ $brand->id == $post->brand ? 'selected' : '' }}>{{ $brand->name }}</option>
+                                        <option value="{{ $brand->id }}"
+                                            {{ $brand->id == $post->brand ? 'selected' : '' }}>{{ $brand->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -256,7 +337,9 @@
                                 <select name="type[]" class="select2 form-control" multiple="multiple"
                                     data-placeholder="Select Offer type" style="width: 100%;">
                                     @foreach ($offers as $offer)
-                                        <option value="{{ $offer->id }}" {{ in_array($offer->id, $types ?? []) ? 'selected' : '' }}>{{ $offer->name }}</option>
+                                        <option value="{{ $offer->id }}"
+                                            {{ in_array($offer->id, $types ?? []) ? 'selected' : '' }}>{{ $offer->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -347,5 +430,31 @@
             });
         });
     </script>
+
+
+    <script>
+        $(document).ready(function() {
+            // Add variant
+            $("#add-variant").on("click", function() {
+                var clonedRow = $(".variant-row:first").clone();
+                clonedRow.find("input").val(""); // Clear input values
+                $("#variant-section").append(clonedRow);
+            });
+
+            // Remove variant
+            $(document).on("click", ".remove-variant", function() {
+
+                $(this).closest(".variant-row").remove();
+
+                // if ($(".variant-row").length > 1) {
+                //     $(this).closest(".variant-row").remove();
+                // } else {
+                //     alert("At least one variant is required.");
+                // }
+            });
+        });
+    </script>
+
+
 
 @endsection

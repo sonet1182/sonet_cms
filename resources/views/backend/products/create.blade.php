@@ -62,17 +62,6 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-6">
-                                    <label for="title">Regular Price</label>
-                                    <input type="text" class="form-control form-control-sm" name="regular_price"
-                                        value="{{ !empty($post) ? $post->regular_price : old('regular_price') }}" required>
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    <label for="title">Offer Price</label>
-                                    <input type="text" class="form-control form-control-sm" name="offer_price"
-                                        value="{{ !empty($post) ? $post->offer_price : old('offer_price') }}" required>
-                                </div>
 
 
 
@@ -81,52 +70,119 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header card-info">
-                            <h3 class="card-title panel-title float-left">
-                                Stock
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-chart-pie mr-1"></i>
+                                Attributes
                             </h3>
+                            <div class="card-tools">
+                                <ul class="nav nav-pills ml-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Simple</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#sales-chart" data-toggle="tab">Varient</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="card-body">
+                            <div class="tab-content p-0">
+                                <div class="chart tab-pane active" id="revenue-chart"
+                                    style="">
+                                    <div class="row">
 
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="title">Unit</label>
-                                    <select name="unit" class="form-control select2" style="width: 100%; padd ">
-                                        <option value="Piece">Piece</option>
-                                        <option value="Pair">Pair</option>
-                                        <option value="Kg">Kg</option>
-                                        <option value="Pound">Pound</option>
-                                        <option value="Liter">Liter</option>
-                                    </select>
+                                        <div class="form-group col-md-6">
+                                            <label for="title">Regular Price</label>
+                                            <input type="text" class="form-control form-control-sm" name="regular_price"
+                                                value="{{ !empty($post) ? $post->regular_price : old('regular_price') }}" required>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="title">Offer Price</label>
+                                            <input type="text" class="form-control form-control-sm" name="offer_price"
+                                                value="{{ !empty($post) ? $post->offer_price : old('offer_price') }}" required>
+                                        </div>
+
+
+
+                                        <div class="form-group col-md-6">
+                                            <label for="title">Unit</label>
+                                            <select name="unit" class="form-control select2" style="width: 100%; padd ">
+                                                <option value="Piece">Piece</option>
+                                                <option value="Pair">Pair</option>
+                                                <option value="Kg">Kg</option>
+                                                <option value="Pound">Pound</option>
+                                                <option value="Liter">Liter</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="title">Qauantity</label>
+                                            <input type="text" class="form-control form-control-sm" name="quantity"
+                                                value="{{ !empty($post) ? $post->quantity : old('quantity') }}">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="title">Stock Alert</label>
+                                            <input type="text" class="form-control form-control-sm" name="stock_alert"
+                                                value="{{ !empty($post) ? $post->stock_alert : old('stock_alert') }}">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="title">Buying Price</label>
+                                            <input type="text" class="form-control form-control-sm" name="buying_price"
+                                                value="{{ !empty($post) ? $post->buying_price : old('buying_price') }}">
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <div class="form-group col-md-6">
-                                    <label for="title">Qauantity</label>
-                                    <input type="text" class="form-control form-control-sm" name="quantity"
-                                        value="{{ !empty($post) ? $post->quantity : old('quantity') }}">
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    <label for="title">Stock Alert</label>
-                                    <input type="text" class="form-control form-control-sm" name="stock_alert"
-                                        value="{{ !empty($post) ? $post->stock_alert : old('stock_alert') }}">
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    <label for="title">Buying Price</label>
-                                    <input type="text" class="form-control form-control-sm" name="buying_price"
-                                        value="{{ !empty($post) ? $post->buying_price : old('buying_price') }}">
+                                <div class="chart tab-pane" id="sales-chart" style="height: 300px; overflow: scroll;">
+                                    <div class="row w-100">
+                                        <button type="button" class="ml-auto btn btn-sm btn-primary ml-auto"
+                                            id="add-variant"> <span class="fa fa-plus"></span> Add Variant</button>
+                                    </div>
+                                    <div id="variant-section">
+                                        <div class="variant-row row">
+                                            <div class="form-group col-md-3">
+                                                <label for="size">Size</label>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="variants[size][]">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="color">Color</label>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="variants[color][]">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="variant_price">Price</label>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="variants[price][]">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="variant_quantity">Quantity</label>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="variants[quantity][]">
+                                            </div>
+                                            <div class="form-group col-md-1">
+                                                <div>&nbsp;</div>
+                                                <button type="button"
+                                                    class="btn btn-danger btn-sm remove-variant"> <span class="fa fa-trash"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
 
 
 
                     <div class="card">
                         <div class="card-header card-info  {{ !empty($post) ? 'alert-primary' : '' }}">
                             <h3 class="card-title panel-title float-left">
-                                Seo Settings
+                                <i class="fas fa-search mr-1"></i> Seo Settings
                             </h3>
                         </div>
                         <div class="card-body">
@@ -139,40 +195,8 @@
                     </div>
 
 
-                    <div class="card">
-                        <div class="card-header card-info d-flex">
-                            <h3 class="card-title panel-title float-left">
-                                Product Variants
-                            </h3>
-                            <button type="button" class="ml-auto btn btn-sm btn-primary" id="add-variant">Add Variant</button>
-                        </div>
-                        <div class="card-body">
-                            <div id="variant-section">
-                                <div class="variant-row row">
-                                    <div class="form-group col-md-3">
-                                        <label for="size">Size</label>
-                                        <input type="text" class="form-control form-control-sm" name="variants[size][]" required>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="color">Color</label>
-                                        <input type="text" class="form-control form-control-sm" name="variants[color][]" required>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="variant_price">Price</label>
-                                        <input type="text" class="form-control form-control-sm" name="variants[price][]" required>
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="variant_quantity">Quantity</label>
-                                        <input type="text" class="form-control form-control-sm" name="variants[quantity][]" required>
-                                    </div>
-                                    <div class="form-group col-md-1">
-                                        <button type="button" class="btn btn-danger remove-variant">Remove</button>
-                                    </div>
-                                </div>
-                            </div>
 
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="col-md-4">
@@ -200,7 +224,7 @@
                                                 <input type="hidden" name="galleryimg_id[]"
                                                     value="{{ $pimg->id }}">
                                                 <img class="img-fluid"
-                                                    src="{{ asset('/public/uploads/images/') . '/' . $pimg->filename }}">
+                                                    src="{{ asset($pimg->file_directory . $pimg->filename) }}">
                                                 <a href="javascript:void()" class="remove"><span
                                                         class="fa fa-trash"></span></a>
                                             </div>
@@ -221,8 +245,8 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Add Brand</label>
-                                <select name="brand" class="form-control select2" multiple="single" data-placeholder="Select Brand"
-                                    style="">
+                                <select name="brand" class="form-control select2" multiple="single"
+                                    data-placeholder="Select Brand" style="">
                                     @foreach ($brands as $brand)
                                         <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                                     @endforeach
@@ -316,19 +340,19 @@
         });
     </script>
 
-<script>
-    $(document).ready(function () {
-        // Add variant
-        $("#add-variant").on("click", function () {
-            var clonedRow = $(".variant-row:first").clone();
-            clonedRow.find("input").val(""); // Clear input values
-            $("#variant-section").append(clonedRow);
-        });
+    <script>
+        $(document).ready(function() {
+            // Add variant
+            $("#add-variant").on("click", function() {
+                var clonedRow = $(".variant-row:first").clone();
+                clonedRow.find("input").val(""); // Clear input values
+                $("#variant-section").append(clonedRow);
+            });
 
-        // Remove variant
-        $(document).on("click", ".remove-variant", function () {
-            $(this).closest(".variant-row").remove();
+            // Remove variant
+            $(document).on("click", ".remove-variant", function() {
+                $(this).closest(".variant-row").remove();
+            });
         });
-    });
-</script>
+    </script>
 @endsection

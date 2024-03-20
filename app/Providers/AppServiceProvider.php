@@ -2,27 +2,26 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
     public function register()
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
+
     public function boot()
     {
-        //
+        if (! $this->app->runningInConsole()) {
+
+            view()->composer('frontend.inc.sidebar', function($view) {
+                $categories = Category::with('subCategories')->whereNull('parent_id')->get();
+                $view->with('categories', $categories);
+            });
+
+        }
     }
 }

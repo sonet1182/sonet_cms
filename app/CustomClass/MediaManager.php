@@ -107,7 +107,7 @@ class MediaManager{
 					type : "GET",
 					url	 : "<?php echo route('media_get');?>",
 					success: function(data){
-						var fileLocaton = "<?php echo url('/public/uploads/images/').'/' ?>";
+						var fileLocaton = "<?php echo url('/images/products/').'/' ?>";
 						//$('.ajd').append(data);
 						for(var i = 0; i < data.length; i++){
 							//console.log(data[i]);

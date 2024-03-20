@@ -199,6 +199,8 @@ class ProductController extends Controller
     }
 
 
+
+
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
@@ -218,11 +220,10 @@ class ProductController extends Controller
             'stock_alert' => 'nullable',
         ]);
 
-        $validatedData['type'] ??= [];
-        $validatedData['type'] = json_encode($validatedData['type']);
-        $validatedData['galleryimg_id'] = json_encode($validatedData['galleryimg_id']);
-        $validatedData['meta_keyword'] ??= [];
-        $validatedData['meta_keyword'] = json_encode($validatedData['meta_keyword']);
+        // Update product details
+        $validatedData['type'] = json_encode($request->input('type', []));
+        $validatedData['galleryimg_id'] = json_encode($request->input('galleryimg_id', []));
+        $validatedData['meta_keyword'] = json_encode($request->input('meta_keyword', []));
         $validatedData['edited_by'] = Auth::user()->id;
 
         // Get the selected category and its ancestors
@@ -230,19 +231,62 @@ class ProductController extends Controller
         $categoryHierarchy = $this->getCategoryHierarchy($category);
         $validatedData['category_hierarchy'] = json_encode($categoryHierarchy);
 
+        // Calculate offer price and buying price
         $validatedData['offer_price'] = $validatedData['offer_price'] ?? $validatedData['regular_price'];
         $validatedData['buying_price'] = $validatedData['buying_price'] ?? $validatedData['offer_price'];
 
+        // Find the product and update its details
         $product = Product::findOrFail($id);
         $product->update($validatedData);
 
-        $notification = array(
+
+        // Process variant data
+        $variants = $request->input('variants');
+
+        // return $variants;
+
+        if ($variants && is_array($variants)) {
+            foreach ($variants['size'] as $key => $size) {
+                // Check if the index exists for all variant arrays
+                if (isset($variants['size'][$key])) {
+                    // Find or create the variant
+                    $variant = ProductVariant::updateOrCreate(
+                        ['id' => $variants['id'][$key] ?? null], // Use the variant ID to update existing variants, if available
+                        [
+                            'product_id' => $product->id,
+                            'size' => $size,
+                            'color' => $variants['color'][$key],
+                            'price' => $variants['price'][$key],
+                            'quantity' => $variants['quantity'][$key],
+                            // Add other variant fields as needed
+                        ]
+                    );
+
+                    // Associate the variant with the product
+                    $product->variants()->save($variant);
+                }
+            }
+        }
+
+
+        // Convert variant sizes from the request to strings
+        $requestVariantSizes = $request->input('variants.size', []);
+
+        // Delete removed variants based on size
+        $removedVariantSizes = array_diff($product->variants()->pluck('size')->toArray(), $requestVariantSizes);
+        $removedVariantIds = $product->variants()->whereIn('size', $removedVariantSizes)->pluck('id')->toArray();
+        ProductVariant::destroy($removedVariantIds);
+
+
+        $notification = [
             'alert-type' => 'success',
             'message' => 'Product has been updated'
-        );
+        ];
 
         return back()->with($notification);
     }
+
+
 
 
     public function destroy($id)

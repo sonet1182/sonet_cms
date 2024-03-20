@@ -29,7 +29,7 @@ class Media extends Model
         $media = Media::where('id', $media_id)->first();
         if($media){
             $filename = str_replace(' ', '%20', $media->filename);
-            return asset('/public/uploads/images/').'/'.$filename;
+            return asset('/images/products/').'/'.$filename;
         } else {
             return asset('/public/frontend/images/noblank-images.jpg');
         }
