@@ -1,5 +1,6 @@
-<div class="position-static d-none d-xl-block">
+{{-- <div class="position-static d-none d-xl-block">
     <div class="aiz-category-menu bg-white rounded-0 border-top" id="category-sidebar" style="width:270px;" id="topBar">
+
 
         <ul class="list-unstyled categories no-scrollbar mb-0 text-left">
 
@@ -52,4 +53,31 @@
 
 
     </div>
+</div> --}}
+
+
+<div class="sidebar">
+    <ul class="menu">
+        <li>
+            <a href="#">Home</a>
+        </li>
+        <li>
+            <a href="#">Products</a>
+            <ul class="submenu">
+                <li><a href="#">Electronics</a></li>
+                <li><a href="#">Clothing</a></li>
+                <li>
+                    <a href="#">Accessories</a>
+                    <ul class="submenu">
+                        <li><a href="#">Bags</a></li>
+                        <li><a href="#">Watches</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Services</a>
+        </li>
+    </ul>
 </div>
+

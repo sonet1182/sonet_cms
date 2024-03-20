@@ -156,6 +156,71 @@
             z-index: 100000;
         }
     </style>
+
+
+    <style>
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            z-index: 100;
+        }
+
+        .sidebar ul {
+            padding: 0px;
+        }
+
+        .sidebar li {
+            list-style: none;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu li {
+            position: relative;
+        }
+
+        .menu li a {
+            display: block;
+            padding: 10px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .menu li:hover {
+            background-color: #555;
+        }
+
+        .submenu {
+            display: none;
+            background-color: #555;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            width: 100%;
+        }
+
+        .menu li:hover>.submenu {
+            display: block;
+        }
+
+        .submenu li {
+            position: relative;
+        }
+
+        .submenu li a {
+            padding: 10px 20px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .submenu li:hover {
+            background-color: #777;
+        }
+    </style>
 </head>
 
 <body>
@@ -572,6 +637,8 @@
                 </div>
             </div>
 
+
+
             <!-- Menu Bar -->
             <div class="d-none d-lg-block position-relative bg-primary h-50px">
                 <div class="container h-100">
@@ -636,6 +703,8 @@
                                 </ul>
                             </div>
                         </div>
+
+
                         <!-- Cart -->
                         <div class="d-none d-xl-block align-self-stretch ml-5 mr-0 has-transition bg-black-10"
                             data-hover="dropdown">
@@ -695,6 +764,8 @@
 
                 @include('frontend.inc.menu')
             </div>
+
+
         </header>
 
         <!-- Top Menu Sidebar -->
@@ -766,6 +837,8 @@
             </div>
         </div>
 
+
+
         <!-- Modal -->
         <div class="modal fade" id="order_details" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -819,8 +892,7 @@
                             href="https://oibazar.com/support-policy">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32.002" height="32.002"
                                 viewBox="0 0 32.002 32.002">
-                                <g id="Group_24198" data-name="Group 24198"
-                                    transform="translate(-1113.999 -2398)">
+                                <g id="Group_24198" data-name="Group 24198" transform="translate(-1113.999 -2398)">
                                     <path id="Subtraction_14" data-name="Subtraction 14"
                                         d="M-14508,18916h0l-1,0a12.911,12.911,0,0,1,3.806-9.187A12.916,12.916,0,0,1-14496,18903a12.912,12.912,0,0,1,9.193,3.811A12.9,12.9,0,0,1-14483,18916l-1,0a11.918,11.918,0,0,0-3.516-8.484A11.919,11.919,0,0,0-14496,18904a11.921,11.921,0,0,0-8.486,3.516A11.913,11.913,0,0,0-14508,18916Z"
                                         transform="translate(15626 -16505)" fill="#919199" />
@@ -926,16 +998,14 @@
                                         class="lab la-facebook-f"></i></a>
                             </li>
                             <li class="list-inline-item ml-2 mr-2">
-                                <a href="#" target="_blank" class="twitter"><i
-                                        class="lab la-twitter"></i></a>
+                                <a href="#" target="_blank" class="twitter"><i class="lab la-twitter"></i></a>
                             </li>
                             <li class="list-inline-item ml-2 mr-2">
                                 <a href="#" target="_blank" class="instagram"><i
                                         class="lab la-instagram"></i></a>
                             </li>
                             <li class="list-inline-item ml-2 mr-2">
-                                <a href="#" target="_blank" class="youtube"><i
-                                        class="lab la-youtube"></i></a>
+                                <a href="#" target="_blank" class="youtube"><i class="lab la-youtube"></i></a>
                             </li>
                             <li class="list-inline-item ml-2 mr-2">
                                 <a href="#" target="_blank" class="linkedin"><i
@@ -1028,8 +1098,7 @@
                                     <p class="fs-13 text-secondary mb-1">Email</p>
                                     <p class="">
                                         <a href="cdn-cgi/l/email-protection.html#ee81878c8f948f9cdcdaae89838f8782c08d8183"
-                                            class="fs-13 text-soft-light hov-text-primary"><span
-                                                class="__cf_email__"
+                                            class="fs-13 text-soft-light hov-text-primary"><span class="__cf_email__"
                                                 data-cfemail="cba4a2a9aab1aab9f9ff8baca6aaa2a7e5a8a4a6">[email&#160;protected]</span></a>
                                     </p>
                                 </li>
@@ -1043,20 +1112,17 @@
                             <h4 class="fs-14 text-secondary text-uppercase fw-700 mb-3">My Account</h4>
                             <ul class="list-unstyled">
                                 <li class="mb-2">
-                                    <a class="fs-13 text-soft-light animate-underline-white"
-                                        href="users/login.html">
+                                    <a class="fs-13 text-soft-light animate-underline-white" href="users/login.html">
                                         Login
                                     </a>
                                 </li>
                                 <li class="mb-2">
-                                    <a class="fs-13 text-soft-light animate-underline-white"
-                                        href="users/login.html">
+                                    <a class="fs-13 text-soft-light animate-underline-white" href="users/login.html">
                                         Order History
                                     </a>
                                 </li>
                                 <li class="mb-2">
-                                    <a class="fs-13 text-soft-light animate-underline-white"
-                                        href="users/login.html">
+                                    <a class="fs-13 text-soft-light animate-underline-white" href="users/login.html">
                                         My Wishlist
                                     </a>
                                 </li>
@@ -1089,8 +1155,7 @@
                                     </p>
                                 </li>
                                 <li class="mb-2">
-                                    <a class="fs-13 text-soft-light animate-underline-white"
-                                        href="seller/login.html">
+                                    <a class="fs-13 text-soft-light animate-underline-white" href="seller/login.html">
                                         Login to Seller Panel
                                     </a>
                                 </li>
@@ -1175,8 +1240,7 @@
                                     <p class="fs-13 text-secondary mb-1">Email</p>
                                     <p class="">
                                         <a href="cdn-cgi/l/email-protection.html#abc4c2c9cad1cad9999febccc6cac2c785c8c4c6"
-                                            class="fs-13 text-soft-light hov-text-primary"><span
-                                                class="__cf_email__"
+                                            class="fs-13 text-soft-light hov-text-primary"><span class="__cf_email__"
                                                 data-cfemail="82edebe0e3f8e3f0b0b6c2e5efe3ebeeace1edef">[email&#160;protected]</span></a>
                                     </p>
                                 </li>
@@ -1297,8 +1361,7 @@
                 <!-- Home -->
                 <div class="col">
                     <a href="index.html" class="text-secondary d-block text-center pb-2 pt-3 svg-active">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                             <g id="Group_24768" data-name="Group 24768" transform="translate(3495.144 -602)">
                                 <path id="Path_2916" data-name="Path 2916"
                                     d="M15.3,5.4,9.561.481A2,2,0,0,0,8.26,0H7.74a2,2,0,0,0-1.3.481L.7,5.4A2,2,0,0,0,0,6.92V14a2,2,0,0,0,2,2H14a2,2,0,0,0,2-2V6.92A2,2,0,0,0,15.3,5.4M10,15H6V9A1,1,0,0,1,7,8H9a1,1,0,0,1,1,1Zm5-1a1,1,0,0,1-1,1H11V9A2,2,0,0,0,9,7H7A2,2,0,0,0,5,9v6H2a1,1,0,0,1-1-1V6.92a1,1,0,0,1,.349-.76l5.74-4.92A1,1,0,0,1,7.74,1h.52a1,1,0,0,1,.651.24l5.74,4.92A1,1,0,0,1,15,6.92Z"
@@ -1312,8 +1375,7 @@
                 <!-- Categories -->
                 <div class="col">
                     <a href="categories.html" class="text-secondary d-block text-center pb-2 pt-3 ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                             <g id="Group_25497" data-name="Group 25497" transform="translate(3373.432 -602)">
                                 <path id="Path_2917" data-name="Path 2917"
                                     d="M126.713,0h-5V5a2,2,0,0,0,2,2h3a2,2,0,0,0,2-2V2a2,2,0,0,0-2-2m1,5a1,1,0,0,1-1,1h-3a1,1,0,0,1-1-1V1h4a1,1,0,0,1,1,1Z"
@@ -1385,8 +1447,7 @@
                 <!-- Account -->
                 <div class="col">
                     <a href="users/login.html" class="text-secondary d-block text-center pb-2 pt-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                             <g id="Group_8094" data-name="Group 8094" transform="translate(3176 -602)">
                                 <path id="Path_2924" data-name="Path 2924"
                                     d="M331.144,0a4,4,0,1,0,4,4,4,4,0,0,0-4-4m0,7a3,3,0,1,1,3-3,3,3,0,0,1-3,3"

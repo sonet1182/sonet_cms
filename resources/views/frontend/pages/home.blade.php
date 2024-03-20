@@ -3,35 +3,38 @@
 
 @section('content')
 
-
     <!-- Sliders & Today's deal -->
-<div class="home-banner-area mb-3" style="">
-    <div class="container">
-        <div class="d-flex flex-wrap position-relative">
+    <div class="home-banner-area mb-3" style="">
+        <div class="container">
+            <div class="d-flex flex-wrap position-relative">
 
-            @include('frontend.inc.sidebar')
-
-            <!-- Sliders -->
-            <div class="home-slider">
-                <div class="aiz-carousel dots-inside-bottom mobile-img-auto-height" data-autoplay="true">
+                @include('frontend.inc.sidebar')
 
 
-                    @foreach ($banners as $banner)
-                    <div class="carousel-box">
-                        <a href="{{ $banner->link }}">
-                            <img class="d-block mw-100 img-fit overflow-hidden h-sm-auto h-md-320px h-lg-460px overflow-hidden"
-                                src="{{ asset($banner->image) }}"
-                                alt="OiBazar.com promo"
-                                onerror="this.onerror=null;this.src='{{ asset('/asset/frontend/assets/img/placeholder-rect.jpg') }}';">
-                        </a>
+
+                <!-- Sliders -->
+                <div class="home-slider">
+                    <div class="aiz-carousel dots-inside-bottom mobile-img-auto-height" data-autoplay="true">
+
+
+                        @foreach ($banners as $banner)
+                            <div class="carousel-box">
+                                <a href="{{ $banner->link }}">
+                                    <img class="d-block mw-100 img-fit overflow-hidden h-sm-auto h-md-320px h-lg-460px overflow-hidden"
+                                        src="{{ asset($banner->image) }}" alt="OiBazar.com promo"
+                                        onerror="this.onerror=null;this.src='{{ asset('/asset/frontend/assets/img/placeholder-rect.jpg') }}';">
+                                </a>
+                            </div>
+                        @endforeach
+
                     </div>
-                    @endforeach
-
                 </div>
             </div>
+
+
+
         </div>
     </div>
-</div>
 
 
     <!-- Today's deal -->
@@ -245,14 +248,14 @@
 
 
                     @foreach ($offers as $data)
-                    <div class="carousel-box overflow-hidden hov-scale-img">
-                        <a href="#" class="d-block text-reset overflow-hidden">
-                            <img src="{{ asset('/asset/frontend/assets/img/placeholder-rect.jpg') }}"
-                                data-src="{{ asset($data->image) }}"
-                                alt="OiBazar.com promo" class="img-fluid lazyload w-100 has-transition"
-                                onerror="this.onerror=null;this.src='{{ asset('/asset/frontend/assets/img/placeholder-rect.jpg') }}';">
-                        </a>
-                    </div>
+                        <div class="carousel-box overflow-hidden hov-scale-img">
+                            <a href="#" class="d-block text-reset overflow-hidden">
+                                <img src="{{ asset('/asset/frontend/assets/img/placeholder-rect.jpg') }}"
+                                    data-src="{{ asset($data->image) }}" alt="OiBazar.com promo"
+                                    class="img-fluid lazyload w-100 has-transition"
+                                    onerror="this.onerror=null;this.src='{{ asset('/asset/frontend/assets/img/placeholder-rect.jpg') }}';">
+                            </a>
+                        </div>
                     @endforeach
 
 
@@ -283,21 +286,19 @@
                     data-dots="false" data-autoplay="true" data-infinite="true">
 
                     @foreach ($main_categories as $data)
-
-                    <div
-                        class="carousel-box position-relative text-center has-transition hov-scale-img hov-animate-outline border-right border-top border-bottom  border-left ">
-                        <a href="category/womens-fashion.html" class="d-block">
-                            <img src="/asset/frontend/uploads/all/dq1iFfnteA70JFfvnnfulzU7FQxZSIrCoJhzVcYI.png"
-                                class="lazyload h-130px mx-auto has-transition p-2 p-sm-4 mw-100"
-                                alt="Women&#039;s Fashion"
-                                onerror="this.onerror=null;this.src='{{ asset('/asset/frontend/assets/img/placeholder.jpg') }}';">
-                        </a>
-                        <h6 class="text-dark mb-3 h-40px text-truncate-2">
-                            <a class="text-reset fw-700 fs-14 hov-text-primary" href="category/womens-fashion.html"
-                                title="Women&#039;s Fashion">{{ $data->title }}</a>
-                        </h6>
-                    </div>
-
+                        <div
+                            class="carousel-box position-relative text-center has-transition hov-scale-img hov-animate-outline border-right border-top border-bottom  border-left ">
+                            <a href="category/womens-fashion.html" class="d-block">
+                                <img src="/asset/frontend/uploads/all/dq1iFfnteA70JFfvnnfulzU7FQxZSIrCoJhzVcYI.png"
+                                    class="lazyload h-130px mx-auto has-transition p-2 p-sm-4 mw-100"
+                                    alt="Women&#039;s Fashion"
+                                    onerror="this.onerror=null;this.src='{{ asset('/asset/frontend/assets/img/placeholder.jpg') }}';">
+                            </a>
+                            <h6 class="text-dark mb-3 h-40px text-truncate-2">
+                                <a class="text-reset fw-700 fs-14 hov-text-primary" href="category/womens-fashion.html"
+                                    title="Women&#039;s Fashion">{{ $data->title }}</a>
+                            </h6>
+                        </div>
                     @endforeach
 
 
