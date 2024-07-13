@@ -10,6 +10,7 @@ use App\Http\Controllers\backend\PromoCodeController;
 use App\Http\Controllers\backend\WebSettingsController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\frontend\HomepageController;
+use App\Http\Controllers\frontend\ProductController as FrontendProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 //Frontend Start
 Route::get('/', [HomepageController::class, 'index']);
+Route::get('/about-us', [HomepageController::class, 'about_us']);
 //Frontend End
 
 // Yajra Data Table Start
@@ -59,8 +61,11 @@ Route::get('/district-list', [ZoneController::class, "districts"]);
 Route::get('/thana-list', [ZoneController::class, "thanas"]);
 
 
+
+
+
 //New Routes for Backend
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/home', [DashboardController::class, 'dashboard'])->name('home');
 
@@ -106,3 +111,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('media/delete/{id}', [MediaController::class, 'destroy'])->name('media_delete');
     Route::delete('media/delete_ajax', [MediaController::class, 'destroy_ajax'])->name('media_delete_ajax');
 });
+
+
+
+Route::get('{slug}', [FrontendProductController::class, 'showBySlug'])
+    ->where('slug', '.*')->name('category');

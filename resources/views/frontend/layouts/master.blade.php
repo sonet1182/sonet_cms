@@ -42,6 +42,8 @@
 
     <!-- Favicon -->
     <link rel="icon" href="/asset/frontend/uploads/all/FyQoh66XQew6Uwn39UJP73pP8ClTNAqR5hbfandD.png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('asset/backend/plugins/fontawesome-free/css/all.min.css') }}">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -160,8 +162,8 @@
 
     <style>
         .sidebar {
-            width: 250px;
-            background-color: #333;
+            width: 270px;
+            background-color: #fff;
             z-index: 100;
         }
 
@@ -181,22 +183,24 @@
 
         .menu li {
             position: relative;
+            border-top: 0 !important;
+            border: 1px solid #dee2e6;
         }
 
         .menu li a {
             display: block;
             padding: 10px;
-            color: #fff;
+            color: #000;
             text-decoration: none;
         }
 
         .menu li:hover {
-            background-color: #555;
+            background-color: #f1e7d4;
         }
 
         .submenu {
             display: none;
-            background-color: #555;
+            background-color: #fff;
             position: absolute;
             top: 0;
             left: 100%;
@@ -213,12 +217,12 @@
 
         .submenu li a {
             padding: 10px 20px;
-            color: #fff;
+            color: #000;
             text-decoration: none;
         }
 
         .submenu li:hover {
-            background-color: #777;
+            background-color: #f1e7d4;
         }
     </style>
 </head>

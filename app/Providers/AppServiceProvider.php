@@ -15,13 +15,15 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        if (! $this->app->runningInConsole()) {
+        if (!$this->app->runningInConsole()) {
 
-            view()->composer('frontend.inc.sidebar', function($view) {
+            view()->composer([
+                'frontend.inc.sidebar',
+                'frontend.inc.menu',
+            ], function ($view) {
                 $categories = Category::with('subCategories')->whereNull('parent_id')->get();
                 $view->with('categories', $categories);
             });
-
         }
     }
 }

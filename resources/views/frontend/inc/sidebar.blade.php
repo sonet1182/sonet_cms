@@ -56,28 +56,26 @@
 </div> --}}
 
 
-<div class="sidebar">
+
+<div class="sidebar position-static d-none d-xl-block">
     <ul class="menu">
-        <li>
-            <a href="#">Home</a>
-        </li>
-        <li>
-            <a href="#">Products</a>
-            <ul class="submenu">
-                <li><a href="#">Electronics</a></li>
-                <li><a href="#">Clothing</a></li>
-                <li>
-                    <a href="#">Accessories</a>
-                    <ul class="submenu">
-                        <li><a href="#">Bags</a></li>
-                        <li><a href="#">Watches</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">Services</a>
-        </li>
+        @foreach ($categories as $category)
+            <li>
+                <a href="{{ route('category', ['slug' => $category->slug]) }}" class="text-truncate text-dark px-4 fs-14 d-block hov-column-gap-1">
+                    <img class="cat-image lazyload mr-2 opacity-60"
+                        src="{{ asset('/asset/frontend/assets/img/placeholder.jpg') }}"
+                        data-src="{{ asset($category->image) }}" width="16" alt="{{ $category->title }}"
+                        onerror="this.onerror=null;this.src='{{ asset('/asset/frontend/assets/img/placeholder.jpg') }}';">
+                    <span class="cat-name has-transition">{{ $category->title }}</span>
+
+                    @if ($category->subcategories->count() > 0)
+                        <span class="float-right"> <i class="fa fa-angle-right text-secondary"></i> </span>
+                    @endif
+                </a>
+                @if ($category->subcategories->count() > 0)
+                    @include('frontend.inc.sidebar_subcat', ['subcategories' => $category->subcategories])
+                @endif
+            </li>
+        @endforeach
     </ul>
 </div>
-

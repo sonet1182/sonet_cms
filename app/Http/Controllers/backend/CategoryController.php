@@ -32,29 +32,34 @@ class CategoryController extends Controller
             return 'Data Not Found!';
     }
 
+
+
     public function store(Request $request)
     {
-        function CleanURL($string, $delimiter = '-')
-        {
-            $string = preg_replace("/[~`{}.'\"\!\@\#\$\%\^\&\*\(\)\_\=\+\/\?\>\<\,\[\]\:\;\|\\\]/", "", $string);
-            $string = preg_replace("/[\/_|+ -]+/", $delimiter, $string);
-            return $string;
-        }
-
         $request->validate([
             'title' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:categories,id',
-            // 'slug' => 'required|string|max:255|unique:products',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        // Get the selected category and its ancestors
+        $category = Category::findOrFail($request->parent_id);
+        $categoryHierarchy = $this->getCategoryHierarchy($category);
+
+        // Build the slug based on category hierarchy
+        $slug = '';
+        foreach ($categoryHierarchy as $parent) {
+            $slug .= $parent->slug . '/';
+        }
+        $slug .= $this->cleanURL($request->title);
+
         if ($request->hasFile('image')) {
-            $image = $this->UploadImage($request, 'image', 'images/categories/', '200', '200');
+            $image = $this->uploadImage($request, 'image', 'images/categories/', '200', '200');
         }
 
         $category = Category::create([
             'title' => $request->title,
-            'slug'   => CleanURL($request->title),
+            'slug'   => $slug,
             'parent_id' => $request->parent_id,
             'image' => $image ?? null,
             'status' => $request->status ? 1 : 0,
@@ -62,45 +67,62 @@ class CategoryController extends Controller
 
         if ($request->ajax()) {
             $categories = Category::with('subCategories')->whereNull('parent_id')->get();
-            if ($categories)
+            if ($categories) {
                 return view('categories.listbox', compact('categories'));
-            else
+            } else {
                 return 'Data Not Found!';
+            }
         } else {
             return redirect()->back()->with('success', 'Category added successfully.');
         }
     }
 
+    function cleanURL($string, $delimiter = '-')
+    {
+        $string = preg_replace("/[~`{}.'\"\!\@\#\$\%\^\&\*\(\)\_\=\+\/\?\>\<\,\[\]\:\;\|\\\]/", "", $string);
+        $string = preg_replace("/[\/_|+ -]+/", $delimiter, $string);
+        return $string;
+    }
+
+    function getCategoryHierarchy($category)
+    {
+        $hierarchy = [];
+        while ($category) {
+            $hierarchy[] = $category;
+            $category = $category->parent;
+        }
+        return array_reverse($hierarchy);
+    }
+
     public function update(Request $request, $id)
     {
-        function CleanURL2($string, $delimiter = '-')
-        {
-            $string = preg_replace("/[~`{}.'\"\!\@\#\$\%\^\&\*\(\)\_\=\+\/\?\>\<\,\[\]\:\;\|\\\]/", "", $string);
-            $string = preg_replace("/[\/_|+ -]+/", $delimiter, $string);
-            return $string;
-        }
-
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:categories,id',
-            // 'slug' => 'required|string|max:255|unique:categories,slug,' . $id,
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $category = Category::findOrFail($id);
 
-
         if ($request->hasFile('image')) {
-            $validatedData['image'] = $this->UploadImage($request, 'image', 'images/categories/', '200', '200', $category->image);
+            $validatedData['image'] = $this->uploadImage($request, 'image', 'images/categories/', '200', '200', $category->image);
         }
 
-        if ($request->status) {
-            $validatedData['status'] = 1;
-        } else {
-            $validatedData['status'] = 0;
-        }
+        $validatedData['status'] = $request->status ? 1 : 0;
 
-        $validatedData['slug'] = CleanURL2($request->title);
+        // Get the selected category and its ancestors
+        $parentCategory = Category::find($category->parent_id);
+        $categoryHierarchy = $this->getCategoryHierarchy($parentCategory);
+
+        // Build the slug based on category hierarchy
+        $slug = '';
+        foreach ($categoryHierarchy as $parent) {
+            $slug .= $parent->slug . '/';
+        }
+        $slug .= $this->cleanURL($request->title);
+
+        $validatedData['slug'] = $slug;
+
 
         $category->update($validatedData);
 
@@ -110,13 +132,12 @@ class CategoryController extends Controller
         ];
 
         if ($request->ajax()) {
-
             $categories = Category::with('subCategories')->whereNull('parent_id')->get();
-            if ($categories)
+            if ($categories) {
                 return view('categories.listbox', compact('categories'));
-            else
+            } else {
                 return 'Data Not Found!';
-
+            }
         } else {
             return back()->with($notification);
         }

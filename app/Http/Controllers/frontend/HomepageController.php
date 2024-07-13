@@ -17,4 +17,9 @@ class HomepageController extends Controller
         $main_categories = Category::withoutTrashed()->where('parent_id',null)->where('status','show')->get();
         return view('frontend.pages.home', compact('banners','offers','main_categories'));
     }
+
+    public function about_us()
+    {
+        return view('frontend.pages.about_us');
+    }
 }
